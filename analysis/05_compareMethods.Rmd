@@ -299,8 +299,7 @@ for(i in 1:length(unique(dat$contrast))){
         group_by(method) %>%
         mutate(rank = 1:n()) %>%
         filter(rank <= 100) %>%
-        mutate(csum = cumsum(ID %in% topGOSets$ID[topGOSets$contrast %in% 
-                                                         contrast])) %>%
+        mutate(csum = cumsum(ID %in% topGOSets$ID)) %>%
         mutate(truth = "RNAseq Terms") -> rnaseqSum
     
     truthSum <- bind_rows(immuneSum, rnaseqSum)

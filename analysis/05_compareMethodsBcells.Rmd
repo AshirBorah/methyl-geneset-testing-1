@@ -55,6 +55,7 @@ if(file.exists(dataFile)){
     detP <- raw[,grepl("Pval", colnames(raw))]
     targets <- as.data.frame(strsplit2(colnames(detP),"_")[,1:2])
     colnames(targets) <- c("ID","Stage")
+    colnames(M) <- colnames(U) <- NULL
     mSet <- MethylSet(Meth = as.matrix(M), Unmeth = as.matrix(U),
                       annotation = c(array = "IlluminaHumanMethylation450k", 
                                      annotation = "ilmn12.hg19"))
@@ -328,8 +329,7 @@ for(i in 1:length(unique(dat$contrast))){
         group_by(method) %>%
         mutate(rank = 1:n()) %>%
         filter(rank <= 100) %>%
-        mutate(csum = cumsum(ID %in% topGOSets$ID[topGOSets$contrast %in% 
-                                                         contrast])) %>%
+        mutate(csum = cumsum(ID %in% topGOSets$ID)) %>%
         mutate(truth = "Array Terms") -> rnaseqSum
     
     truthSum <- bind_rows(immuneSum, rnaseqSum)
