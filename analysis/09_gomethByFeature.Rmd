@@ -28,8 +28,9 @@ library(missMethyl)
 Load methylation blood cell comparison input data and annotation.
 
 ```{r}
-load(here::here('data/cache-intermediates/blood.contrasts.rData'))
+blood.contrasts <- readRDS(here::here('data/cache-intermediates/blood.contrasts.rds'))
 anno <- minfi::getAnnotation(IlluminaHumanMethylationEPICanno.ilm10b4.hg19)
+tfit <- blood.contrasts$tfit
 ```
 
 ## Effect of restricting by genomic features on No. Sig. CpGs
@@ -63,7 +64,7 @@ for(i in 1:ncol(tfit$contrasts)){
                       features = paste(feats,collapse = "."),
                       contrast = colnames(tfit$contrasts)[i],
                       stringsAsFactors = FALSE)
-    tmp %>% filter(cpgs %in% flatAnn$cpg[flatAnn$group %in% feats]) -> tmp
+    tmp %>% dplyr::filter(cpgs %in% flatAnn$cpg[flatAnn$group %in% feats]) -> tmp
     dat <- bind_rows(dat, tmp)
     
     feats <- c("Body","ExonBnd")
@@ -73,7 +74,7 @@ for(i in 1:ncol(tfit$contrasts)){
                       features = paste(feats, collapse = "."),
                       contrast = colnames(tfit$contrasts)[i],
                       stringsAsFactors = FALSE)
-    tmp %>% filter(cpgs %in% flatAnn$cpg[flatAnn$group %in% feats]) -> tmp
+    tmp %>% dplyr::filter(cpgs %in% flatAnn$cpg[flatAnn$group %in% feats]) -> tmp
     dat <- bind_rows(dat, tmp)
     
     tmp <- data.frame(cpgs = rownames(topTreat(tfit, coef = i, num = Inf, 
@@ -91,7 +92,7 @@ for(i in 1:ncol(tfit$contrasts)){
                       features = paste(feats,collapse = "."),
                       contrast = colnames(tfit$contrasts)[i],
                       stringsAsFactors = FALSE)
-    tmp %>% filter(cpgs %in% flatAnn$cpg[flatAnn$group %in% feats]) -> tmp
+    tmp %>% dplyr::filter(cpgs %in% flatAnn$cpg[flatAnn$group %in% feats]) -> tmp
     dat <- bind_rows(dat, tmp)
     
     feats <- c("Body","ExonBnd")
@@ -101,7 +102,7 @@ for(i in 1:ncol(tfit$contrasts)){
                       features = paste(feats, collapse = "."),
                       contrast = colnames(tfit$contrasts)[i],
                       stringsAsFactors = FALSE)
-    tmp %>% filter(cpgs %in% flatAnn$cpg[flatAnn$group %in% feats]) -> tmp
+    tmp %>% dplyr::filter(cpgs %in% flatAnn$cpg[flatAnn$group %in% feats]) -> tmp
     dat <- bind_rows(dat, tmp)
 }
 
