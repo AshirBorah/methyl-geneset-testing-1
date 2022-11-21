@@ -194,6 +194,7 @@ if(!file.exists(outFile)){
   obj$targets <- targets
 
   saveRDS(obj, file = outFile)
+  save(tfit, maxsize, minsize, mVals, targets, file = here("data/cache-intermediates/blood.contrasts.rData"))
 
 } 
 ```
